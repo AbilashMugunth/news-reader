@@ -1,6 +1,9 @@
 cateegoryUrl =
   "https://get.scrapehero.com/news-api/categories/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
 
+const api_key = "IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
+
+const base_url = "https://get.scrapehero.com/news-api/news/";
 async function categoryNewsApi(url) {
   try {
     const response = await fetch(url);
@@ -11,6 +14,40 @@ async function categoryNewsApi(url) {
     console.log(error);
   }
 }
+
+$(function () {
+  $('input[name="daterange"]').daterangepicker(
+    {
+      opens: "left",
+    },
+    function (start, end, label) {
+      console.log(
+        "A new date selection was made: " +
+          start.format("YYYY-MM-DD") +
+          " to " +
+          end.format("YYYY-MM-DD")
+      );
+    }
+  );
+});
+
+const searchTab = document.querySelector("#search-tab");
+
+searchTab.addEventListener("keyup", function (event) {
+  const string = searchTab.value;
+
+  if (event.keyCode === 13 && searchTab.value !== undefined) {
+    console.log(string);
+    event.preventDefault();
+    categoryNewsApi(
+      `${base_url}?q=${string}&sentiment=Positive&start_date=2020-12-01&end_date=2020-12-03&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=${api_key}`
+    );
+    if (searchTab.value == "") {
+      window.location.reload();
+      console.log("reloaded");
+    }
+  }
+});
 
 categoryNewsApi(cateegoryUrl);
 
@@ -48,8 +85,9 @@ returnSource();
 const result = document.querySelector(".result");
 result.addEventListener("click", () => {
   categoryNewsApi(
-    `https://get.scrapehero.com/news-api/news/?q=Us&sentiment=${returnSentiment()}&start_date=2020-12-01&end_date=2020-12-03&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE`
+    `${base_url}?q=Us&sentiment=${returnSentiment()}&start_date=2020-12-01&end_date=2020-12-03&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE`
   );
+  console.log(searchTab.value);
 });
 
-// https://get.scrapehero.com/news-api/news/?q=Iphone&sentiment=positive&start_date=2020-12-01&end_date=2020-12-03&source_id=1&category_id=1&x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE
+$('input[name="dates"]').daterangepicker();

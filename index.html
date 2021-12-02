@@ -11,10 +11,20 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
+
     <!-- <link rel="stylesheet" href="/main.css" /> -->
     <title>News Reader</title>
   </head>
   <body>
+    <input type="text" id="search-tab" />
+
+    <input type="text" name="daterange" value="01/12/2021 - 03/12/2021" />
     <form class="form">
       <label for="category">Choose a car:</label>
 
@@ -46,6 +56,18 @@
     </form>
     <button class="result" type="button">show result</button>
 
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+    ></script>
     <script src="/main.js"></script>
   </body>
 </html>
