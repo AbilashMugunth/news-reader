@@ -110,11 +110,13 @@ function insert(news) {
 
 const searchTab = document.querySelector("#search-tab");
 const dateTab = document.querySelector(".date-range");
-const string = searchTab.value;
 
 searchTab.addEventListener("keyup", function (event) {
   if (event.keyCode === 13 && searchTab.value !== undefined) {
-    console.log(string);
+    const string = searchTab.value;
+
+    console.dir(searchTab.value);
+    console.dir(string);
     event.preventDefault();
     categoryNewsApi(
       `${base_url}?q=${string}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=${api_key}`
@@ -185,7 +187,8 @@ $(function () {
       console.log(
         "A new date selection was made: " + startDate + " to " + endDate
       );
-
+      const string = searchTab.value;
+      console.log(string);
       categoryNewsApi(
         `${base_url}?q=${
           string || defaultSearchTerm
