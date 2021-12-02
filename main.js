@@ -1,8 +1,18 @@
-cateegoryUrl =
-  "https://get.scrapehero.com/news-api/categories/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
+// cateegoryUrl =
+//   // "https://get.scrapehero.com/news-api/categories/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
 
 const base_url = "https://get.scrapehero.com/news-api/news/";
+
 const api_key = "IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
+
+const defaultSearchTerm = "Iphone";
+const defaultSentiment = "Positive";
+const defaultSource = "277%2C4171";
+const defaultCategory = "13010000%2C04018000";
+const defaultStartDate = "2021-11-01";
+
+let today = new Date().toISOString().slice(0, 10);
+const defaultEndDate = today;
 
 async function categoryNewsApi(url) {
   try {
@@ -10,12 +20,16 @@ async function categoryNewsApi(url) {
     const data = await response.json();
     const newsList = data.result.data;
     insert(newsList);
-    insertDefault(newsList);
+    // insertDefault(newsList);
   } catch (error) {
     // Catch Error Here
     console.log(error);
   }
 }
+
+categoryNewsApi(
+  `${base_url}?q=${defaultSearchTerm}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
+);
 
 const mainHeading = document.querySelector(".main-heading");
 const mainSideHeading = document.querySelector(".main-side-heading");
@@ -23,37 +37,29 @@ const mainPublication = document.querySelector(".main-publication");
 const mainDate = document.querySelector(".main-date");
 const mainNews = document.querySelector(".main-news");
 
-function insertDefault(news) {
-  console.log(news);
-  const defaultNews = news[0];
-  const datee = defaultNews.date;
+// function insertDefault(news) {
+//   console.log(news);
+//   const defaultNews = news[0];
+//   const datee = defaultNews.date;
 
-  function slicedDate() {
-    const returnDate = datee.slice(0, 10);
-    return returnDate;
-  }
+//   function slicedDate() {
+//     const returnDate = datee.slice(0, 10);
+//     return returnDate;
+//   }
 
-  mainHeading.innerHTML = `${defaultNews.title}`;
-  mainPublication.innerHTML = `${defaultNews.publication}`;
-  mainDate.innerHTML = `${slicedDate()}`;
-  mainNews.innerHTML = `${defaultNews.content}`;
-}
+//   mainHeading.innerHTML = `${defaultNews.title}`;
+//   mainPublication.innerHTML = `${defaultNews.publication}`;
+//   mainDate.innerHTML = `${slicedDate()}`;
+//   mainNews.innerHTML = `${defaultNews.content}`;
+// }
 
 const previewContainer = document.querySelector(".preview-container");
 
 function insert(news) {
+  console.log(news[0]);
+
   news.forEach((element) => {
-    // console.log(element);
-    const eachPreviewContainer = document.createElement("div");
-    eachPreviewContainer.classList.add("each-preview-container");
-
-    eachPreviewContainer.addEventListener("click", () => {
-      mainHeading.innerHTML = `${element.title}`;
-      mainPublication.innerHTML = `${element.publication}`;
-      mainDate.innerHTML = `${slicedDate()}`;
-      mainNews.innerHTML = `${element.content}`;
-    });
-
+    const defaultNews = news[0];
     const datee = element.date;
     // // console.log();
 
@@ -61,6 +67,20 @@ function insert(news) {
       const returnDate = datee.slice(0, 10);
       return returnDate;
     }
+
+    mainHeading.innerHTML = `${defaultNews.title}`;
+    mainPublication.innerHTML = `${defaultNews.publication}`;
+    mainDate.innerHTML = `${slicedDate()}`;
+    mainNews.innerHTML = `${defaultNews.content}`;
+
+    const eachPreviewContainer = document.createElement("div");
+    eachPreviewContainer.classList.add("each-preview-container");
+    eachPreviewContainer.addEventListener("click", () => {
+      mainHeading.innerHTML = `${element.title}`;
+      mainPublication.innerHTML = `${element.publication}`;
+      mainDate.innerHTML = `${slicedDate()}`;
+      mainNews.innerHTML = `${element.content}`;
+    });
 
     // function reformatDate(date) {
     //   dArr = date.split("-");
@@ -86,17 +106,21 @@ function insert(news) {
   });
 }
 
+// *!Search functionality ////////////////////////////////////////////
+
 const searchTab = document.querySelector("#search-tab");
+const dateTab = document.querySelector(".date-range");
+const string = searchTab.value;
 
 searchTab.addEventListener("keyup", function (event) {
-  const string = searchTab.value;
-
   if (event.keyCode === 13 && searchTab.value !== undefined) {
     console.log(string);
     event.preventDefault();
     categoryNewsApi(
-      `${base_url}?q=${string}&sentiment=Positive&start_date=2020-12-01&end_date=2020-12-03&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=${api_key}`
+      `${base_url}?q=${string}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=${api_key}`
     );
+
+    dateTab.value = `${defaultStartDate}-${defaultEndDate}`;
     previewContainer.innerHTML = "";
     if (searchTab.value == "") {
       window.location.reload();
@@ -104,10 +128,6 @@ searchTab.addEventListener("keyup", function (event) {
     }
   }
 });
-
-categoryNewsApi(
-  `https://get.scrapehero.com/news-api/news/?q=Iphone&sentiment=Positive&start_date=2020-12-01&end_date=2020-12-03&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE`
-);
 
 const form = document.querySelector("form");
 console.log(form.elements);
@@ -167,8 +187,11 @@ $(function () {
       );
 
       categoryNewsApi(
-        `${base_url}?q=Us&sentiment=${returnSentiment()}&start_date=${startDate}&end_date=${endDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+        `${base_url}?q=${
+          string || defaultSearchTerm
+        }&sentiment=${defaultSentiment}&start_date=${startDate}&end_date=${endDate}&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
       );
+      previewContainer.innerHTML = "";
     }
   );
 });
