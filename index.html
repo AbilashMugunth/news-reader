@@ -18,43 +18,67 @@
       href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
     />
 
-    <!-- <link rel="stylesheet" href="/main.css" /> -->
+    <link rel="stylesheet" href="/main.css" />
     <title>News Reader</title>
   </head>
   <body>
-    <input type="text" id="search-tab" />
+    <header>
+      <input type="text" id="search-tab" />
+      <input type="text" name="daterange" value="01/12/2021 - 03/12/2021" />
+      <button id="advance-search">advanced search</button>
+    </header>
 
-    <input type="text" name="daterange" value="01/12/2021 - 03/12/2021" />
-    <form class="form">
-      <label for="category">Choose a car:</label>
+    <main>
+      <div class="preview-container"></div>
+      <div class="news-content">
+        <h2 class="main-heading"></h2>
+        <div class="main-side-heading">
+          <p class="main-publication"></p>
+          <p class="main-date"></p>
+        </div>
+        <div class="main-news"></div>
+      </div>
+    </main>
 
-      <select name="category" id="categories" onchange="returnCategory();">
-        <option value="17000000">weather</option>
-        <option value="04019000">finance</option>
-        <option value="11000000">politics</option>
-        <option value="13009000">science</option>
-        <option value="13010000">technology</option>
-      </select>
+    <div id="modal-background">
+      <div id="modal" class="modal">
+        <form class="form">
+          <label for="category">Choose a car:</label>
 
-      <label for="sentiment">Choose a car:</label>
+          <select name="category" id="categories" onchange="returnCategory();">
+            <option value="17000000">weather</option>
+            <option value="04019000">finance</option>
+            <option value="11000000">politics</option>
+            <option value="13009000">science</option>
+            <option value="13010000">technology</option>
+          </select>
 
-      <select name="sentiment" id="sentiments" onchange="returnSentiment();">
-        <option value="positive">positive</option>
-        <option value="neutral">neutral</option>
-        <option value="negetive">negetive</option>
-      </select>
+          <label for="sentiment">Choose a car:</label>
 
-      <label for="source">Choose a car:</label>
+          <select
+            name="sentiment"
+            id="sentiments"
+            onchange="returnSentiment();"
+          >
+            <option value="positive">positive</option>
+            <option value="neutral">neutral</option>
+            <option value="negetive">negetive</option>
+          </select>
 
-      <select name="source" id="sources" onchange="returnSource();">
-        <option value="1">CNN International US</option>
-        <option value="2">The New York Times</option>
-        <option value="3">HuffPost</option>
-        <option value="4">Fox News</option>
-        <option value="5">USA Today</option>
-      </select>
-    </form>
-    <button class="result" type="button">show result</button>
+          <label for="source">Choose a car:</label>
+
+          <select name="source" id="sources" onchange="returnSource();">
+            <option value="1">CNN International US</option>
+            <option value="2">The New York Times</option>
+            <option value="3">HuffPost</option>
+            <option value="4">Fox News</option>
+            <option value="5">USA Today</option>
+          </select>
+        </form>
+        <button class="result" type="button">show result</button>
+        <i id="close-btn" class="fas fa-2x fa-times"></i>
+      </div>
+    </div>
 
     <script
       type="text/javascript"

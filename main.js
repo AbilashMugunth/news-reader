@@ -1,18 +1,89 @@
 cateegoryUrl =
   "https://get.scrapehero.com/news-api/categories/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
 
+const base_url = "https://get.scrapehero.com/news-api/news/";
 const api_key = "IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
 
-const base_url = "https://get.scrapehero.com/news-api/news/";
 async function categoryNewsApi(url) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+    const newsList = data.result.data;
+    insert(newsList);
+    insertDefault(newsList);
   } catch (error) {
     // Catch Error Here
     console.log(error);
   }
+}
+
+const mainHeading = document.querySelector(".main-heading");
+const mainSideHeading = document.querySelector(".main-side-heading");
+const mainPublication = document.querySelector(".main-publication");
+const mainDate = document.querySelector(".main-date");
+const mainNews = document.querySelector(".main-news");
+
+function insertDefault(news) {
+  console.log(news);
+  const defaultNews = news[0];
+  const datee = defaultNews.date;
+
+  function slicedDate() {
+    const returnDate = datee.slice(0, 10);
+    return returnDate;
+  }
+
+  mainHeading.innerHTML = `${defaultNews.title}`;
+  mainPublication.innerHTML = `${defaultNews.publication}`;
+  mainDate.innerHTML = `${slicedDate()}`;
+  mainNews.innerHTML = `${defaultNews.content}`;
+}
+
+const previewContainer = document.querySelector(".preview-container");
+
+function insert(news) {
+  news.forEach((element) => {
+    // console.log(element);
+    const eachPreviewContainer = document.createElement("div");
+    eachPreviewContainer.classList.add("each-preview-container");
+
+    eachPreviewContainer.addEventListener("click", () => {
+      mainHeading.innerHTML = `${element.title}`;
+      mainPublication.innerHTML = `${element.publication}`;
+      mainDate.innerHTML = `${slicedDate()}`;
+      mainNews.innerHTML = `${element.content}`;
+    });
+
+    const datee = element.date;
+    // // console.log();
+
+    function slicedDate() {
+      const returnDate = datee.slice(0, 10);
+      return returnDate;
+    }
+
+    // function reformatDate(date) {
+    //   dArr = date.split("-");
+    //   const newDate = dArr[2] + "/" + dArr[1] + "/" + dArr[0].substring(2);
+    //   return newDate;
+    // }
+
+    eachPreviewContainer.innerHTML = `
+        <div class="news-box">
+          
+          <div class='news-info'>
+          <span
+          class="date">${slicedDate()}</span>
+              <h3 class="news-title" data-tooltip="View Fullstory" >${
+                element.title
+              }</h3>
+            <p class="overview">${element.publication}</p>
+          </div>
+        </div>`;
+    previewContainer.appendChild(eachPreviewContainer);
+
+    // searchContainer.appendChild(newsContainer);
+  });
 }
 
 const searchTab = document.querySelector("#search-tab");
@@ -26,6 +97,7 @@ searchTab.addEventListener("keyup", function (event) {
     categoryNewsApi(
       `${base_url}?q=${string}&sentiment=Positive&start_date=2020-12-01&end_date=2020-12-03&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=${api_key}`
     );
+    previewContainer.innerHTML = "";
     if (searchTab.value == "") {
       window.location.reload();
       console.log("reloaded");
@@ -33,7 +105,9 @@ searchTab.addEventListener("keyup", function (event) {
   }
 });
 
-categoryNewsApi(cateegoryUrl);
+categoryNewsApi(
+  `https://get.scrapehero.com/news-api/news/?q=Iphone&sentiment=Positive&start_date=2020-12-01&end_date=2020-12-03&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE`
+);
 
 const form = document.querySelector("form");
 console.log(form.elements);
@@ -72,6 +146,8 @@ result.addEventListener("click", () => {
     `${base_url}?q=Us&sentiment=${returnSentiment()}&start_date=2020-12-01&end_date=2020-12-03&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
   );
   console.log(searchTab.value);
+
+  previewContainer.innerHTML = "";
 });
 
 // *! Date functionlaity ///////////////////////////
@@ -95,4 +171,36 @@ $(function () {
       );
     }
   );
+});
+
+// *! MODAL /////////////////////////
+
+let modal = document.querySelector(".modal");
+
+//  select the open-btn button
+let advancedSearchBtn = document.getElementById("advance-search");
+
+//  select the modal-background
+let modalBackground = document.getElementById("modal-background");
+
+//  select the close-btn
+let closeBtn = document.getElementById("close-btn");
+
+//  shows the modal when the user clicks open-btn
+advancedSearchBtn.addEventListener("click", function () {
+  modalBackground.style.display = "block";
+});
+
+//  hides the modal when the user clicks close-btn
+closeBtn.addEventListener("click", function () {
+  modalBackground.style.display = "none";
+});
+
+// hides the modal when the user clicks outside the modal
+window.addEventListener("click", function (event) {
+  //  check if the event happened on the modal-background
+  if (event.target === modalBackground) {
+    //  hides the modal
+    modalBackground.style.display = "none";
+  }
 });

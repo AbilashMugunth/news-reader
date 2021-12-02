@@ -40,7 +40,7 @@ main {
   grid-gap: 2rem;
 }
 
-.news-preview {
+.preview-container {
   padding-right: 1rem;
   border-right: 1px solid #000;
 }
