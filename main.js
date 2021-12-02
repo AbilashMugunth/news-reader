@@ -15,22 +15,6 @@ async function categoryNewsApi(url) {
   }
 }
 
-$(function () {
-  $('input[name="daterange"]').daterangepicker(
-    {
-      opens: "left",
-    },
-    function (start, end, label) {
-      console.log(
-        "A new date selection was made: " +
-          start.format("YYYY-MM-DD") +
-          " to " +
-          end.format("YYYY-MM-DD")
-      );
-    }
-  );
-});
-
 const searchTab = document.querySelector("#search-tab");
 
 searchTab.addEventListener("keyup", function (event) {
@@ -85,9 +69,30 @@ returnSource();
 const result = document.querySelector(".result");
 result.addEventListener("click", () => {
   categoryNewsApi(
-    `${base_url}?q=Us&sentiment=${returnSentiment()}&start_date=2020-12-01&end_date=2020-12-03&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE`
+    `${base_url}?q=Us&sentiment=${returnSentiment()}&start_date=2020-12-01&end_date=2020-12-03&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
   );
   console.log(searchTab.value);
 });
 
+// *! Date functionlaity ///////////////////////////
+
 $('input[name="dates"]').daterangepicker();
+
+$(function () {
+  $('input[name="daterange"]').daterangepicker(
+    {
+      opens: "left",
+    },
+    function (start, end, label) {
+      const startDate = start.format("YYYY-MM-DD");
+      const endDate = end.format("YYYY-MM-DD");
+      console.log(
+        "A new date selection was made: " + startDate + " to " + endDate
+      );
+
+      categoryNewsApi(
+        `${base_url}?q=Us&sentiment=${returnSentiment()}&start_date=${startDate}&end_date=${endDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+      );
+    }
+  );
+});
