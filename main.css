@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  padding: 1rem;
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+main {
+  border: 1px solid black;
+  margin-top: 2rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2fr;
+      grid-template-columns: 1fr 2fr;
+  grid-gap: 2rem;
+}
+
+.news-preview {
+  padding-right: 1rem;
+  border-right: 1px solid #000;
+}
+
+/* ////////////////////////////////////////////////// */
+.news-box {
+  /* background-color: rgb(149, 88, 88); */
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #acabc4;
+}
+
+.date,
+.main-date,
+.publication {
+  color: #acabc4;
+}
+
+.main-publication {
+  color: #185ff8;
+}
+
+.link {
+  text-decoration: none;
+  color: #000000;
+}
+
+.preview-container {
+  cursor: pointer;
+}
+
+#select-date {
+  margin-bottom: 2rem;
+}
+
+.news-title {
+  margin: 0.5rem 0;
+}
+
+/* ///////////////////////////////////////////////////////////////// */
+.news-content {
+  padding: 4rem;
+}
+
+.main-heading {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.main-side-heading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #acabc4;
+}
+
+.main-news {
+  line-height: 1.6;
+}
+
+#modal-background {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+#modal {
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 85vw;
+  height: 50vh;
+  overflow: scroll;
+  padding: 10px 20px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  -webkit-animation-name: animatemodal;
+          animation-name: animatemodal;
+  -webkit-animation-duration: 0.4s;
+          animation-duration: 0.4s;
+  position: relative;
+}
+
+@-webkit-keyframes animatemodal {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 50%;
+    opacity: 1;
+  }
+}
+
+@keyframes animatemodal {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 50%;
+    opacity: 1;
+  }
+}
+
+#close-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #000;
+}
+
+#close-btn:hover {
+  cursor: pointer;
+  color: #ff0000;
+}
+/*# sourceMappingURL=main.css.map */
