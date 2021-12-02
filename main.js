@@ -141,21 +141,30 @@ const sentimentFilter = formElements[1];
 const sourcesFilter = formElements[2];
 
 function returnCategory() {
-  var selectedValue = document.getElementById("categories").value;
-  console.log(selectedValue);
-  return selectedValue;
+  var selectedValue = document.getElementById("category").value;
+  console.dir(selectedValue);
+  if (selectedValue !== "") {
+    return selectedValue;
+  }
+  return defaultCategory;
 }
 
 function returnSentiment() {
-  var selectedValue = document.getElementById("sentiments").value;
-  console.log(selectedValue);
-  return selectedValue;
+  var selectedValue = document.getElementById("sentiment").value;
+  if (selectedValue !== "") {
+    return selectedValue;
+  }
+
+  return defaultSentiment;
 }
 
 function returnSource() {
-  var selectedValue = document.getElementById("sources").value;
-  console.log(selectedValue);
-  return selectedValue;
+  var selectedValue = document.getElementById("source").value;
+  if (selectedValue !== "") {
+    return selectedValue;
+  }
+
+  return defaultSource;
 }
 
 returnCategory();
@@ -230,3 +239,10 @@ window.addEventListener("click", function (event) {
     modalBackground.style.display = "none";
   }
 });
+
+// const check = document.querySelector("#browser");
+// console.log(check.value);
+// console.dir(check);
+// check.addEventListener("change", () => {
+//   console.log(check.value);
+// });
