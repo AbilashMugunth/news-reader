@@ -78,6 +78,7 @@ function insert(news) {
             </div>
           </div>
         </div>`;
+
     previewContainer.appendChild(eachPreviewContainer);
     const sentiment = element.sentiment;
     const sentimentColors = document.querySelectorAll(".sentiment-color");
@@ -103,6 +104,7 @@ function returnCategory() {
   var selectedValue = document.getElementById("category").value;
   console.dir(selectedValue);
   if (selectedValue !== "") {
+    localStorage.setItem("categoryvalue", selectedValue);
     return selectedValue;
   }
   return defaultCategory;
@@ -142,10 +144,15 @@ searchTab.addEventListener("keyup", function (event) {
     console.dir(string);
     event.preventDefault();
     categoryNewsApi(
-      `${base_url}?q=${string}&sentiment=${returnSentiment()}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+      `${base_url}?q=${string}&sentiment=${
+        getLocalSentiment() || returnSentiment()
+      }&start_date=${getLocalStartDate() || defaultStartDate}&end_date=${
+        getLocalEndDate() || defaultEndDate
+      }&source_id=${getLocalSource() || returnSource()}&category_id=${
+        getLocalCategory() || returnCategory()
+      }&x-api-key=${api_key}`
     );
 
-    // dateTab.value = `${defaultStartDate}-${defaultEndDate}`;
     previewContainer.innerHTML = "";
     if (searchTab.value == "") {
       window.location.reload();
@@ -155,20 +162,26 @@ searchTab.addEventListener("keyup", function (event) {
 });
 
 // *! ADVANCED SEARCH FUNCTIONALITY ///////////////////////////
-
-returnCategory();
-returnSentiment();
-returnSource();
+const localCategory = document.getElementById("category");
+const localSentiment = document.getElementById("sentiment");
+const localSource = document.getElementById("source");
 
 const result = document.querySelector(".result");
 result.addEventListener("click", () => {
+  localStorage.setItem("categoryvalue", localCategory.value);
+  localStorage.setItem("sentimentvalue", localSentiment.value);
+  localStorage.setItem("sourcevalue", localSource.value);
   console.dir(searchTab);
   let string = searchTab.value;
   console.log(string);
   categoryNewsApi(
-    `${base_url}?q=${
-      string || defaultSearchTerm
-    }&sentiment=${returnSentiment()}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+    `${base_url}?q=${string || defaultSearchTerm}&sentiment=${
+      getLocalSentiment() || returnSentiment()
+    }&start_date=${getLocalStartDate() || defaultStartDate}&end_date=${
+      getLocalEndDate() || defaultEndDate
+    }&source_id=${getLocalSource() || returnSource()}&category_id=${
+      getLocalCategory() || returnCategory()
+    }&x-api-key=${api_key}`
   );
   console.log(searchTab.value);
 
@@ -177,7 +190,6 @@ result.addEventListener("click", () => {
 });
 
 // *! DATE FUNCTIONALITY ///////////////////////////
-// $('input[name="dates"]').daterangepicker();
 
 $(function () {
   $('input[name="daterange"]').daterangepicker(
@@ -198,9 +210,13 @@ $(function () {
       const string = searchTab.value;
       console.log(string);
       categoryNewsApi(
-        `${base_url}?q=${
-          string || defaultSearchTerm
-        }&sentiment=${returnSentiment()}&start_date=${startDate}&end_date=${endDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+        `${base_url}?q=${string || defaultSearchTerm}&sentiment=${
+          getLocalSentiment() || returnSentiment()
+        }&start_date=${startDate}&end_date=${endDate}&source_id=${
+          getLocalSource() || returnSource()
+        }&category_id=${
+          getLocalCategory() || returnCategory()
+        }&x-api-key=${api_key}`
       );
       previewContainer.innerHTML = "";
       localStorage.setItem("startdate", startDate);
@@ -215,6 +231,7 @@ function getLocalSearchTerm() {
   searchTab.value = localStorage.getItem("search");
   return searchTab.value;
 }
+
 function getLocalStartDate() {
   return localStorage.getItem("startdate");
 }
@@ -223,14 +240,35 @@ function getLocalEndDate() {
   return localStorage.getItem("enddate");
 }
 
+// const localCategory = document.getElementById("category");
+localCategory.value = localStorage.getItem("categoryvalue");
+
+function getLocalCategory() {
+  return localStorage.getItem("categoryvalue");
+}
+
+// const localSentiment = document.getElementById("sentiment");
+localSentiment.value = localStorage.getItem("sentimentvalue");
+
+function getLocalSentiment() {
+  return localStorage.getItem("sentimentvalue");
+}
+
+// const localSource = document.getElementById("source");
+localSource.value = localStorage.getItem("sourcevalue");
+
+function getLocalSource() {
+  return localStorage.getItem("sourcevalue");
+}
+
 categoryNewsApi(
-  `${base_url}?q=${
-    getLocalSearchTerm() || defaultSearchTerm
-  }&sentiment=${defaultSentiment}&start_date=${
-    getLocalStartDate() || defaultStartDate
-  }&end_date=${
+  `${base_url}?q=${getLocalSearchTerm() || defaultSearchTerm}&sentiment=${
+    getLocalSentiment() || defaultSentiment
+  }&start_date=${getLocalStartDate() || defaultStartDate}&end_date=${
     getLocalEndDate() || defaultEndDate
-  }&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
+  }&source_id=${getLocalSource() || defaultSource}&category_id=${
+    getLocalCategory() || defaultCategory
+  }&x-api-key=${api_key}`
 );
 
 // *! MODAL /////////////////////////
@@ -295,6 +333,7 @@ function formatDate(d) {
   }
 }
 
+// window.localStorage.removeItem("search");
 // 178 -bbc
 //210 - indian express
 //211- india today
