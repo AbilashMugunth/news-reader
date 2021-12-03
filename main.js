@@ -1,10 +1,11 @@
 const base_url = "https://get.scrapehero.com/news-api/news/";
 const api_key = "IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
 
-const defaultSearchTerm = "India";
+const defaultSearchTerm =
+  "google%2Camerica%2Ccovid%2CIndia%2Cworld%2Csports%2Cmovie%2Cfacebook";
 const defaultSentiment = `${"positive" || "negative" || "neutral"}`;
 
-const defaultSource = "169%2C277%2C211%2C210";
+const defaultSource = "169%2C277%2C211%2C210%2C1%2C2%2C14%2C136%2C157%2C178";
 const defaultCategory = "01000000%2C04000000%2C13000000%2C15000000";
 
 const mixedSent = "Negative";
@@ -102,35 +103,6 @@ function changeSentimentColors(colors, sentiment) {
   });
 }
 
-// *!SEARCH TERM functionality ////////////////////////////////////////////
-const searchTab = document.querySelector("#search-tab");
-const dateTab = document.querySelector(".date-range");
-
-searchTab.addEventListener("keyup", function (event) {
-  if (event.keyCode === 13 && searchTab.value !== undefined) {
-    const string = searchTab.value;
-
-    console.dir(searchTab.value);
-    console.dir(string);
-    event.preventDefault();
-    categoryNewsApi(
-      `${base_url}?q=${string}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
-    );
-
-    dateTab.value = `${defaultStartDate}-${defaultEndDate}`;
-    previewContainer.innerHTML = "";
-    if (searchTab.value == "") {
-      window.location.reload();
-      console.log("reloaded");
-    }
-  }
-});
-
-// *! ADVANCED SEARCH functionlaity ///////////////////////////
-
-const form = document.querySelector("form");
-const formElements = form.elements;
-
 function returnCategory() {
   var selectedValue = document.getElementById("category").value;
   console.dir(selectedValue);
@@ -156,18 +128,50 @@ function returnSource() {
   return defaultSource;
 }
 
+// *!SEARCH TERM functionality ////////////////////////////////////////////
+const searchTab = document.querySelector("#search-tab");
+const dateTab = document.querySelector(".date-range");
+
+searchTab.addEventListener("keyup", function (event) {
+  if (event.keyCode === 13 && searchTab.value !== undefined) {
+    const string = searchTab.value;
+
+    console.dir(searchTab.value);
+    console.dir(string);
+    event.preventDefault();
+    categoryNewsApi(
+      `${base_url}?q=${string}&sentiment=${returnSentiment()}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+    );
+
+    dateTab.value = `${defaultStartDate}-${defaultEndDate}`;
+    previewContainer.innerHTML = "";
+    if (searchTab.value == "") {
+      window.location.reload();
+      console.log("reloaded");
+    }
+  }
+});
+
+// *! ADVANCED SEARCH functionlaity ///////////////////////////
+
 returnCategory();
 returnSentiment();
 returnSource();
 
 const result = document.querySelector(".result");
 result.addEventListener("click", () => {
+  console.dir(searchTab);
+  let string = searchTab.value;
+  console.log(string);
   categoryNewsApi(
-    `${base_url}?q=google%2Camerica%2Ccovid%2CIndia&sentiment=Neutral&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+    `${base_url}?q=${
+      string || defaultSearchTerm
+    }&sentiment=${returnSentiment()}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
   );
   console.log(searchTab.value);
 
   previewContainer.innerHTML = "";
+  // searchTab.value = "";
 });
 
 // *! Date functionlaity ///////////////////////////
@@ -189,7 +193,7 @@ $(function () {
       categoryNewsApi(
         `${base_url}?q=${
           string || defaultSearchTerm
-        }&sentiment=${defaultSentiment}&start_date=${startDate}&end_date=${endDate}&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
+        }&sentiment=${returnSentiment()}&start_date=${startDate}&end_date=${endDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
       );
       previewContainer.innerHTML = "";
     }
