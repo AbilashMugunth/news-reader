@@ -222,7 +222,6 @@ function getLocalStartDate() {
 function getLocalEndDate() {
   return localStorage.getItem("enddate");
 }
-dateTab.value = `${getLocalStartDate()}${getLocalEndDate()}`;
 
 categoryNewsApi(
   `${base_url}?q=${
