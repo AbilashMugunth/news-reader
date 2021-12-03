@@ -53,7 +53,7 @@ function insert(news) {
 
     mainHeading.innerHTML = `${defaultNews.title}`;
     mainPublication.innerHTML = `${defaultNews.publication}`;
-    mainDate.innerHTML = `${slicedDate()}`;
+    mainDate.innerHTML = `${formatDate(slicedDate())}`;
     mainNews.innerHTML = `${defaultNews.content}`;
 
     const eachPreviewContainer = document.createElement("div");
@@ -61,7 +61,7 @@ function insert(news) {
     eachPreviewContainer.addEventListener("click", () => {
       mainHeading.innerHTML = `${element.title}`;
       mainPublication.innerHTML = `${element.publication}`;
-      mainDate.innerHTML = `${slicedDate()}`;
+      mainDate.innerHTML = `${formatDate(slicedDate())}`;
       mainNews.innerHTML = `${element.content}`;
     });
 
@@ -74,7 +74,7 @@ function insert(news) {
     eachPreviewContainer.innerHTML = `
         <div class="news-box">
           <div class='news-info'>
-            <span class="date">${slicedDate()}</span>
+            <span class="date">${formatDate(slicedDate())}</span>
             <h3 class="news-title">${element.title}</h3>
             <div class='publication-box'>
               <p class="sentiment-color"></p>
@@ -230,6 +230,36 @@ window.addEventListener("click", function (event) {
     modalBackground.style.display = "none";
   }
 });
+
+function formatDate(d) {
+  var date = new Date(d);
+
+  if (isNaN(date.getTime())) {
+    return d;
+  } else {
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+
+    day = date.getDate();
+
+    if (day < 10) {
+      day = "0" + day;
+    }
+
+    return `${month[date.getMonth()]} ${day},${date.getFullYear()}`;
+  }
+}
 
 // 178 -bbc
 //210 - indian express
