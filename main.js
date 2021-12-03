@@ -30,6 +30,7 @@ categoryNewsApi(
 );
 
 // *!DISPLAYING NEWS IN LANDING PAGE ////////////////////////////////////////////
+const newsContent = document.querySelector(".news-content");
 const mainHeading = document.querySelector(".main-heading");
 const mainSideHeading = document.querySelector(".main-side-heading");
 const mainPublication = document.querySelector(".main-publication");
@@ -37,10 +38,15 @@ const mainDate = document.querySelector(".main-date");
 const mainNews = document.querySelector(".main-news");
 
 const previewContainer = document.querySelector(".preview-container");
+const errorMessage =
+  "We can't find what you are looking for 😑😑😑 please use diffrent keyword or filter";
 
 function insert(news) {
   console.log(news);
-
+  if (news == "") {
+    previewContainer.innerHTML = errorMessage;
+    newsContent.innerHTML = errorMessage;
+  }
   news.forEach((element) => {
     const defaultNews = news[0];
     const datee = element.date;
@@ -64,12 +70,6 @@ function insert(news) {
       mainDate.innerHTML = `${formatDate(slicedDate())}`;
       mainNews.innerHTML = `${element.content}`;
     });
-
-    // function reformatDate(date) {
-    //   dArr = date.split("-");
-    //   const newDate = dArr[2] + "/" + dArr[1] + "/" + dArr[0].substring(2);
-    //   return newDate;
-    // }
 
     eachPreviewContainer.innerHTML = `
         <div class="news-box">
@@ -128,7 +128,7 @@ function returnSource() {
   return defaultSource;
 }
 
-// *!SEARCH TERM functionality ////////////////////////////////////////////
+// *!SEARCH TERM FUNCTIONALITY ////////////////////////////////////////////
 const searchTab = document.querySelector("#search-tab");
 const dateTab = document.querySelector(".date-range");
 
@@ -152,7 +152,7 @@ searchTab.addEventListener("keyup", function (event) {
   }
 });
 
-// *! ADVANCED SEARCH functionlaity ///////////////////////////
+// *! ADVANCED SEARCH FUNCTIONALITY ///////////////////////////
 
 returnCategory();
 returnSentiment();
@@ -174,7 +174,7 @@ result.addEventListener("click", () => {
   // searchTab.value = "";
 });
 
-// *! Date functionlaity ///////////////////////////
+// *! DATE FUNCTIONALITY ///////////////////////////
 $('input[name="dates"]').daterangepicker();
 
 $(function () {
@@ -231,6 +231,7 @@ window.addEventListener("click", function (event) {
   }
 });
 
+// *! DATE CONVERSION FUNCTION /////////////////////////
 function formatDate(d) {
   var date = new Date(d);
 
