@@ -1,16 +1,14 @@
-// cateegoryUrl =
-//   // "https://get.scrapehero.com/news-api/categories/?x-api-key=IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
-
 const base_url = "https://get.scrapehero.com/news-api/news/";
-
 const api_key = "IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
 
-const defaultSearchTerm = "Iphone";
-const defaultSentiment = "Positive";
-const defaultSource = "277%2C4171";
-const defaultCategory = "13010000%2C04018000";
-const defaultStartDate = "2021-11-01";
+const defaultSearchTerm = "India";
+const defaultSentiment = `${"positive" || "negative" || "neutral"}`;
 
+const defaultSource = "169%2C277%2C211%2C210";
+const defaultCategory = "01000000%2C04000000%2C13000000%2C15000000";
+
+const mixedSent = "Negative";
+const defaultStartDate = "2021-11-01";
 let today = new Date().toISOString().slice(0, 10);
 const defaultEndDate = today;
 
@@ -20,7 +18,6 @@ async function categoryNewsApi(url) {
     const data = await response.json();
     const newsList = data.result.data;
     insert(newsList);
-    // insertDefault(newsList);
   } catch (error) {
     // Catch Error Here
     console.log(error);
@@ -31,32 +28,17 @@ categoryNewsApi(
   `${base_url}?q=${defaultSearchTerm}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
 );
 
+// *!DISPLAYING NEWS IN LANDING PAGE ////////////////////////////////////////////
 const mainHeading = document.querySelector(".main-heading");
 const mainSideHeading = document.querySelector(".main-side-heading");
 const mainPublication = document.querySelector(".main-publication");
 const mainDate = document.querySelector(".main-date");
 const mainNews = document.querySelector(".main-news");
 
-// function insertDefault(news) {
-//   console.log(news);
-//   const defaultNews = news[0];
-//   const datee = defaultNews.date;
-
-//   function slicedDate() {
-//     const returnDate = datee.slice(0, 10);
-//     return returnDate;
-//   }
-
-//   mainHeading.innerHTML = `${defaultNews.title}`;
-//   mainPublication.innerHTML = `${defaultNews.publication}`;
-//   mainDate.innerHTML = `${slicedDate()}`;
-//   mainNews.innerHTML = `${defaultNews.content}`;
-// }
-
 const previewContainer = document.querySelector(".preview-container");
 
 function insert(news) {
-  console.log(news[0]);
+  console.log(news);
 
   news.forEach((element) => {
     const defaultNews = news[0];
@@ -107,9 +89,9 @@ function insert(news) {
   });
 }
 
+// *!CHANGING COLORS OF SENTIMENT ////////////////////////////////////////////
 function changeSentimentColors(colors, sentiment) {
   colors.forEach((color) => {
-    console.log(color);
     if (sentiment == "Positive") {
       color.style.backgroundColor = "green";
     } else if (sentiment == "Neutral") {
@@ -120,8 +102,7 @@ function changeSentimentColors(colors, sentiment) {
   });
 }
 
-// *!Search functionality ////////////////////////////////////////////
-
+// *!SEARCH TERM functionality ////////////////////////////////////////////
 const searchTab = document.querySelector("#search-tab");
 const dateTab = document.querySelector(".date-range");
 
@@ -133,7 +114,7 @@ searchTab.addEventListener("keyup", function (event) {
     console.dir(string);
     event.preventDefault();
     categoryNewsApi(
-      `${base_url}?q=${string}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=277%2C4171&category_id=13010000%2C04018000&x-api-key=${api_key}`
+      `${base_url}?q=${string}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
     );
 
     dateTab.value = `${defaultStartDate}-${defaultEndDate}`;
@@ -145,14 +126,10 @@ searchTab.addEventListener("keyup", function (event) {
   }
 });
 
+// *! ADVANCED SEARCH functionlaity ///////////////////////////
+
 const form = document.querySelector("form");
-console.log(form.elements);
-
 const formElements = form.elements;
-
-const categoryFilter = formElements[0];
-const sentimentFilter = formElements[1];
-const sourcesFilter = formElements[2];
 
 function returnCategory() {
   var selectedValue = document.getElementById("category").value;
@@ -168,7 +145,6 @@ function returnSentiment() {
   if (selectedValue !== "") {
     return selectedValue;
   }
-
   return defaultSentiment;
 }
 
@@ -177,7 +153,6 @@ function returnSource() {
   if (selectedValue !== "") {
     return selectedValue;
   }
-
   return defaultSource;
 }
 
@@ -188,7 +163,7 @@ returnSource();
 const result = document.querySelector(".result");
 result.addEventListener("click", () => {
   categoryNewsApi(
-    `${base_url}?q=Us&sentiment=${returnSentiment()}&start_date=2020-12-01&end_date=2020-12-03&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
+    `${base_url}?q=google%2Camerica%2Ccovid%2CIndia&sentiment=Neutral&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
   );
   console.log(searchTab.value);
 
@@ -196,7 +171,6 @@ result.addEventListener("click", () => {
 });
 
 // *! Date functionlaity ///////////////////////////
-
 $('input[name="dates"]').daterangepicker();
 
 $(function () {
@@ -223,7 +197,6 @@ $(function () {
 });
 
 // *! MODAL /////////////////////////
-
 let modal = document.querySelector(".modal");
 
 //  select the open-btn button
@@ -254,9 +227,13 @@ window.addEventListener("click", function (event) {
   }
 });
 
-// const check = document.querySelector("#browser");
-// console.log(check.value);
-// console.dir(check);
-// check.addEventListener("change", () => {
-//   console.log(check.value);
-// });
+// 178 -bbc
+//210 - indian express
+//211- india today
+//436-sun news
+//814 tamilnet.com
+//4171 -googlenews
+//14-ABC News
+// 136-mashabble
+// 157 -techradar
+//169 -times of india
