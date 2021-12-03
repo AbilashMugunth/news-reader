@@ -90,19 +90,33 @@ function insert(news) {
 
     eachPreviewContainer.innerHTML = `
         <div class="news-box">
-          
           <div class='news-info'>
-          <span
-          class="date">${slicedDate()}</span>
-              <h3 class="news-title" data-tooltip="View Fullstory" >${
-                element.title
-              }</h3>
-            <p class="overview">${element.publication}</p>
+            <span class="date">${slicedDate()}</span>
+            <h3 class="news-title">${element.title}</h3>
+            <div class='publication-box'>
+              <p class="sentiment-color"></p>
+              <p class="overview">${element.publication}</p>
+            </div>
           </div>
         </div>`;
     previewContainer.appendChild(eachPreviewContainer);
+    const sentiment = element.sentiment;
+    const sentimentColors = document.querySelectorAll(".sentiment-color");
 
-    // searchContainer.appendChild(newsContainer);
+    changeSentimentColors(sentimentColors, sentiment);
+  });
+}
+
+function changeSentimentColors(colors, sentiment) {
+  colors.forEach((color) => {
+    console.log(color);
+    if (sentiment == "Positive") {
+      color.style.backgroundColor = "green";
+    } else if (sentiment == "Neutral") {
+      color.style.backgroundColor = "gray";
+    } else if (sentiment == "Negative") {
+      color.style.backgroundColor = "red";
+    }
   });
 }
 
