@@ -25,10 +25,6 @@ async function categoryNewsApi(url) {
   }
 }
 
-categoryNewsApi(
-  `${base_url}?q=${defaultSearchTerm}&sentiment=${defaultSentiment}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
-);
-
 // *!DISPLAYING NEWS IN LANDING PAGE ////////////////////////////////////////////
 const newsContent = document.querySelector(".news-content");
 const mainHeading = document.querySelector(".main-heading");
@@ -136,6 +132,12 @@ searchTab.addEventListener("keyup", function (event) {
   if (event.keyCode === 13 && searchTab.value !== undefined) {
     const string = searchTab.value;
 
+    //////////////////////////////////////////////
+
+    localStorage.setItem("search", searchTab.value);
+
+    //////////////////////////////////////////
+
     console.dir(searchTab.value);
     console.dir(string);
     event.preventDefault();
@@ -143,7 +145,7 @@ searchTab.addEventListener("keyup", function (event) {
       `${base_url}?q=${string}&sentiment=${returnSentiment()}&start_date=${defaultStartDate}&end_date=${defaultEndDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
     );
 
-    dateTab.value = `${defaultStartDate}-${defaultEndDate}`;
+    // dateTab.value = `${defaultStartDate}-${defaultEndDate}`;
     previewContainer.innerHTML = "";
     if (searchTab.value == "") {
       window.location.reload();
@@ -175,13 +177,18 @@ result.addEventListener("click", () => {
 });
 
 // *! DATE FUNCTIONALITY ///////////////////////////
-$('input[name="dates"]').daterangepicker();
+// $('input[name="dates"]').daterangepicker();
 
 $(function () {
   $('input[name="daterange"]').daterangepicker(
     {
       opens: "left",
+      autoUpdateInput: false,
+      locale: {
+        cancelLabel: "Clear",
+      },
     },
+
     function (start, end, label) {
       const startDate = start.format("YYYY-MM-DD");
       const endDate = end.format("YYYY-MM-DD");
@@ -196,9 +203,36 @@ $(function () {
         }&sentiment=${returnSentiment()}&start_date=${startDate}&end_date=${endDate}&source_id=${returnSource()}&category_id=${returnCategory()}&x-api-key=${api_key}`
       );
       previewContainer.innerHTML = "";
+      localStorage.setItem("startdate", startDate);
+      localStorage.setItem("enddate", endDate);
     }
   );
 });
+
+// *!LOCAL STORAGE //////////////////////////
+
+function getLocalSearchTerm() {
+  searchTab.value = localStorage.getItem("search");
+  return searchTab.value;
+}
+function getLocalStartDate() {
+  return localStorage.getItem("startdate");
+}
+
+function getLocalEndDate() {
+  return localStorage.getItem("enddate");
+}
+dateTab.value = `${getLocalStartDate()}${getLocalEndDate()}`;
+
+categoryNewsApi(
+  `${base_url}?q=${
+    getLocalSearchTerm() || defaultSearchTerm
+  }&sentiment=${defaultSentiment}&start_date=${
+    getLocalStartDate() || defaultStartDate
+  }&end_date=${
+    getLocalEndDate() || defaultEndDate
+  }&source_id=${defaultSource}&category_id=${defaultCategory}&x-api-key=${api_key}`
+);
 
 // *! MODAL /////////////////////////
 let modal = document.querySelector(".modal");
