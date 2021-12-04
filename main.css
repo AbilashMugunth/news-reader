@@ -198,12 +198,10 @@ main {
 
 .form {
   border-top: 1px solid #acabc4;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: repeat auto-fit, minmax(240px, 300px);
+      grid-template-columns: repeat auto-fit, minmax(240px, 300px);
   padding-top: 2rem;
   margin-top: 1rem;
   font-family: "Open Sans", sans-serif;
@@ -214,9 +212,11 @@ main {
 }
 
 select {
-  border-radius: 2rem;
+  border-radius: 1rem;
   width: 15rem;
   padding: 0 1rem;
+  margin-bottom: 2.5rem;
+  margin-top: 0.2rem;
 }
 
 .btn-container {

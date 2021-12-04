@@ -186,8 +186,11 @@ main {
 
 .form {
   border-top: 1px solid #acabc4;
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat (auto-fit, minmax(240px, 300px));
+  // grid-auto-rows: 240px;
   padding-top: 2rem;
   margin-top: 1rem;
   // background: red;
@@ -199,9 +202,11 @@ main {
 }
 
 select {
-  border-radius: 2rem;
+  border-radius: 1rem;
   width: 15rem;
   padding: 0 1rem;
+  margin-bottom: 2.5rem;
+  margin-top: 0.2rem;
 }
 
 .btn-container {

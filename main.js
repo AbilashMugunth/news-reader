@@ -1,18 +1,18 @@
+// *!URL SELECTORS ////////////////////////////////////////////
 const base_url = "https://get.scrapehero.com/news-api/news/";
 const api_key = "IHEwbeb7kN3f7I3Qizc1FqAJVexvcKUE";
 
 const defaultSearchTerm =
   "google%2Camerica%2Ccovid%2CIndia%2Cworld%2Csports%2Cmovie%2Cfacebook";
 const defaultSentiment = `${"positive" || "negative" || "neutral"}`;
-
 const defaultSource = "169%2C277%2C211%2C210%2C1%2C2%2C14%2C136%2C157%2C178";
 const defaultCategory = "01000000%2C04000000%2C13000000%2C15000000";
 
-const mixedSent = "Negative";
 const defaultStartDate = "2021-11-01";
 let today = new Date().toISOString().slice(0, 10);
 const defaultEndDate = today;
 
+// *!ASYNC FUNCTION ////////////////////////////////////////////
 async function categoryNewsApi(url) {
   try {
     const response = await fetch(url);
@@ -25,18 +25,18 @@ async function categoryNewsApi(url) {
   }
 }
 
-// *!DISPLAYING NEWS IN LANDING PAGE ////////////////////////////////////////////
+// *!LANDING PAGE SELECTORS ////////////////////////////////////////////
 const newsContent = document.querySelector(".news-content");
 const mainHeading = document.querySelector(".main-heading");
 const mainSideHeading = document.querySelector(".main-side-heading");
 const mainPublication = document.querySelector(".main-publication");
 const mainDate = document.querySelector(".main-date");
 const mainNews = document.querySelector(".main-news");
-
 const previewContainer = document.querySelector(".preview-container");
 const errorMessage =
   "We can't find what you are looking for 😑😑😑 please use diffrent keyword or filter";
 
+// *!DISPLAYING NEWS IN LANDING PAGE ////////////////////////////////////////////
 function insert(news) {
   console.log(news);
   if (news == "") {
@@ -46,29 +46,21 @@ function insert(news) {
   news.forEach((element) => {
     const defaultNews = news[0];
     const datee = element.date;
-    // // console.log();
 
     function slicedDate() {
       const returnDate = datee.slice(0, 10);
       return returnDate;
     }
 
+    // *!DISPLAYING NEWS FROM DEFAULT////////////////
     mainHeading.innerHTML = `${defaultNews.title}`;
     mainPublication.innerHTML = `${defaultNews.publication}`;
     mainDate.innerHTML = `${formatDate(slicedDate())}`;
     mainNews.innerHTML = `${defaultNews.content}`;
 
+    // *!ADDING EACH PREVIEWS FROM API ////////////////
     const eachPreviewContainer = document.createElement("div");
     eachPreviewContainer.classList.add("each-preview-container");
-    eachPreviewContainer.addEventListener("click", () => {
-      console.log(eachPreviewContainer);
-
-      mainHeading.innerHTML = `${element.title}`;
-      mainPublication.innerHTML = `${element.publication}`;
-      mainDate.innerHTML = `${formatDate(slicedDate())}`;
-      mainNews.innerHTML = `${element.content}`;
-    });
-
     eachPreviewContainer.innerHTML = `
         <div class="news-box">
           <div class='news-info'>
@@ -80,11 +72,21 @@ function insert(news) {
             </div>
           </div>
         </div>`;
-
     previewContainer.appendChild(eachPreviewContainer);
+
+    // *!DISPLAYING NEWS FROM PREVIEWS ////////////////
+    eachPreviewContainer.addEventListener("click", () => {
+      console.log(eachPreviewContainer);
+
+      mainHeading.innerHTML = `${element.title}`;
+      mainPublication.innerHTML = `${element.publication}`;
+      mainDate.innerHTML = `${formatDate(slicedDate())}`;
+      mainNews.innerHTML = `${element.content}`;
+    });
+
+    // *!SENTIMENT SELECTORS & CALLING changeSentimentColors FUNCTION ////////////////
     const sentiment = element.sentiment;
     const sentimentColors = document.querySelectorAll(".sentiment-color");
-
     changeSentimentColors(sentimentColors, sentiment);
   });
 }
@@ -102,6 +104,7 @@ function changeSentimentColors(colors, sentiment) {
   });
 }
 
+// *!FUNCTIONS TO RETURN FILTERED VALUES ////////////////////////////////////////////
 function returnCategory() {
   var selectedValue = document.getElementById("category").value;
   console.dir(selectedValue);
@@ -133,18 +136,17 @@ const searchTab = document.querySelector("#search-tab");
 const dateTab = document.querySelector(".date-range");
 
 searchTab.addEventListener("keyup", function (event) {
+  // *!If ENTER is pressed //////
   if (event.keyCode === 13 && searchTab.value !== undefined) {
     const string = searchTab.value;
 
-    //////////////////////////////////////////////
-
+    // *! setting search term local storage////////
     localStorage.setItem("search", searchTab.value);
 
-    //////////////////////////////////////////
-
-    console.dir(searchTab.value);
     console.dir(string);
     event.preventDefault();
+
+    // *!Requesting API When ENTER is clicked ////
     categoryNewsApi(
       `${base_url}?q=${string}&sentiment=${
         getLocalSentiment() || returnSentiment()
@@ -154,8 +156,9 @@ searchTab.addEventListener("keyup", function (event) {
         getLocalCategory() || returnCategory()
       }&x-api-key=${api_key}`
     );
-
     previewContainer.innerHTML = "";
+
+    // *!If search value is empty reload the page //////
     if (searchTab.value == "") {
       window.location.reload();
       console.log("reloaded");
@@ -170,11 +173,13 @@ const localSource = document.getElementById("source");
 const result = document.querySelector(".result");
 const cancel = document.querySelector(".cancel");
 
+// *! resets the form when cancel button clicked ////
 cancel.addEventListener("click", () => {
   document.querySelector(".form").reset();
 });
 
 result.addEventListener("click", () => {
+  // *! Setting filters local storage ////
   localStorage.setItem("categoryvalue", localCategory.value);
   localStorage.setItem("sentimentvalue", localSentiment.value);
   localStorage.setItem("sourcevalue", localSource.value);
@@ -183,6 +188,7 @@ result.addEventListener("click", () => {
   let string = searchTab.value;
   console.log(string);
 
+  // *!Requesting API When ShowResult button clicked ////
   categoryNewsApi(
     `${base_url}?q=${string || defaultSearchTerm}&sentiment=${
       getLocalSentiment() || returnSentiment()
@@ -200,6 +206,7 @@ result.addEventListener("click", () => {
 
 // *! DATE FUNCTIONALITY ///////////////////////////
 
+// !*JQUERY FUNCTION ///////////////////
 $(function () {
   $('input[name="daterange"]').daterangepicker(
     {
@@ -219,7 +226,7 @@ $(function () {
       const string = searchTab.value;
       console.log(string);
 
-      // !*REQUESTING WHEN DATED CHANGED
+      // *!REQUESTING API WHEN DATED CHANGED //////////////////////////
       categoryNewsApi(
         `${base_url}?q=${string || defaultSearchTerm}&sentiment=${
           getLocalSentiment() || returnSentiment()
@@ -230,9 +237,12 @@ $(function () {
         }&x-api-key=${api_key}`
       );
       previewContainer.innerHTML = "";
+
+      // *!SETTING STARTDATE AND ENDDATE LOCAL STORAGE //
       localStorage.setItem("startdate", startDate);
       localStorage.setItem("enddate", endDate);
 
+      // *!DISPLAY DATE IN (paragraph under date search) WHEN DATE IS CHANGED//
       document.getElementById("display-start-date").innerHTML = formatDate(
         getLocalStartDate() || defaultStartDate
       );
@@ -244,6 +254,8 @@ $(function () {
   );
 });
 
+// *!DISPLAY DATE IN (paragraph under date search) WHEN REFRESHED THE PAGE//
+
 document.getElementById("display-start-date").innerHTML = formatDate(
   getLocalStartDate() || defaultStartDate
 );
@@ -253,7 +265,6 @@ document.getElementById("display-end-date").innerHTML = formatDate(
 );
 
 // *!LOCAL STORAGE //////////////////////////
-
 function getLocalSearchTerm() {
   searchTab.value = localStorage.getItem("search");
   return searchTab.value;
@@ -282,7 +293,7 @@ function getLocalSource() {
   return localStorage.getItem("sourcevalue");
 }
 
-// !*INITIAL REQUEST WHEN PAGE LOADED
+// *!INITIAL REQUEST WHEN PAGE LOADED///////////////////////
 categoryNewsApi(
   `${base_url}?q=${getLocalSearchTerm() || defaultSearchTerm}&sentiment=${
     getLocalSentiment() || defaultSentiment
@@ -295,14 +306,8 @@ categoryNewsApi(
 
 // *! MODAL /////////////////////////
 let modal = document.querySelector(".modal");
-
-//  select the open-btn button
 let advancedSearchBtn = document.getElementById("advance-search");
-
-//  select the modal-background
 let modalBackground = document.getElementById("modal-background");
-
-//  select the close-btn
 let closeBtn = document.getElementById("close-btn");
 
 //  shows the modal when the user clicks open-btn
