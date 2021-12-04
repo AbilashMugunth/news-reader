@@ -83,19 +83,13 @@ main {
   margin-bottom: -3rem;
 }
 
-/* ////////////////////////////////////////////////// */
 .preview-container {
   padding-right: 1rem;
   border-right: 1px solid #000;
   margin-left: 2rem;
 }
 
-.each-preview-container.active {
-  background: #cabfbf;
-}
-
 .news-box {
-  /* background-color: rgb(149, 88, 88); */
   margin-bottom: 1rem;
   border-bottom: 1px solid #acabc4;
 }
@@ -104,10 +98,6 @@ main {
 .main-date,
 .publication {
   color: #acabc4;
-}
-
-.main-publication {
-  color: #185ff8;
 }
 
 .link {
@@ -139,7 +129,6 @@ main {
   margin: 0.5rem 0;
 }
 
-/* ///////////////////////////////////////////////////////////////// */
 .news-content {
   padding: 4rem;
 }
@@ -159,6 +148,10 @@ main {
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #acabc4;
+}
+
+.main-publication {
+  color: #185ff8;
 }
 
 .main-news {
@@ -183,7 +176,7 @@ main {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  width: 85vw;
+  width: 50vw;
   height: 50vh;
   padding: 10px 20px;
   border-radius: 5px;
@@ -213,7 +206,7 @@ main {
 
 select {
   border-radius: 1rem;
-  width: 15rem;
+  width: 20vw;
   padding: 0 1rem;
   margin-bottom: 2.5rem;
   margin-top: 0.2rem;
