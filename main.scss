@@ -26,7 +26,6 @@ header {
 }
 
 main {
-  // border: 1px solid black;
   margin-top: 2rem;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -181,14 +180,10 @@ main {
 
 .form {
   border-top: 1px solid #acabc4;
-  // display: flex;
-  // justify-content: space-between;
   display: grid;
   grid-template-columns: repeat (auto-fit, minmax(240px, 300px));
-  // grid-auto-rows: 240px;
   padding-top: 2rem;
   margin-top: 1rem;
-  // background: red;
   font-family: "Open Sans", sans-serif;
 }
 

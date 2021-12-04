@@ -360,12 +360,9 @@ function formatDate(d) {
   }
 }
 
-// window.localStorage.removeItem("search");
 // 178 -bbc
 //210 - indian express
 //211- india today
-//436-sun news
-//814 tamilnet.com
 //4171 -googlenews
 //14-ABC News
 // 136-mashabble
