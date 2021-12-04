@@ -165,15 +165,17 @@ searchTab.addEventListener("keyup", function (event) {
 const localCategory = document.getElementById("category");
 const localSentiment = document.getElementById("sentiment");
 const localSource = document.getElementById("source");
-
 const result = document.querySelector(".result");
+
 result.addEventListener("click", () => {
   localStorage.setItem("categoryvalue", localCategory.value);
   localStorage.setItem("sentimentvalue", localSentiment.value);
   localStorage.setItem("sourcevalue", localSource.value);
+
   console.dir(searchTab);
   let string = searchTab.value;
   console.log(string);
+
   categoryNewsApi(
     `${base_url}?q=${string || defaultSearchTerm}&sentiment=${
       getLocalSentiment() || returnSentiment()
@@ -183,8 +185,8 @@ result.addEventListener("click", () => {
       getLocalCategory() || returnCategory()
     }&x-api-key=${api_key}`
   );
-  console.log(searchTab.value);
 
+  console.log(searchTab.value);
   previewContainer.innerHTML = "";
   // searchTab.value = "";
 });
@@ -209,6 +211,8 @@ $(function () {
       );
       const string = searchTab.value;
       console.log(string);
+
+      // !*REQUESTING WHEN DATED CHANGED
       categoryNewsApi(
         `${base_url}?q=${string || defaultSearchTerm}&sentiment=${
           getLocalSentiment() || returnSentiment()
@@ -221,9 +225,25 @@ $(function () {
       previewContainer.innerHTML = "";
       localStorage.setItem("startdate", startDate);
       localStorage.setItem("enddate", endDate);
+
+      document.getElementById("display-start-date").innerHTML = formatDate(
+        getLocalStartDate() || defaultStartDate
+      );
+
+      document.getElementById("display-end-date").innerHTML = formatDate(
+        getLocalEndDate() || defaultEndDate
+      );
     }
   );
 });
+
+document.getElementById("display-start-date").innerHTML = formatDate(
+  getLocalStartDate() || defaultStartDate
+);
+
+document.getElementById("display-end-date").innerHTML = formatDate(
+  getLocalEndDate() || defaultEndDate
+);
 
 // *!LOCAL STORAGE //////////////////////////
 
@@ -240,27 +260,22 @@ function getLocalEndDate() {
   return localStorage.getItem("enddate");
 }
 
-// const localCategory = document.getElementById("category");
 localCategory.value = localStorage.getItem("categoryvalue");
-
 function getLocalCategory() {
   return localStorage.getItem("categoryvalue");
 }
 
-// const localSentiment = document.getElementById("sentiment");
 localSentiment.value = localStorage.getItem("sentimentvalue");
-
 function getLocalSentiment() {
   return localStorage.getItem("sentimentvalue");
 }
 
-// const localSource = document.getElementById("source");
 localSource.value = localStorage.getItem("sourcevalue");
-
 function getLocalSource() {
   return localStorage.getItem("sourcevalue");
 }
 
+// !*INITIAL REQUEST WHEN PAGE LOADED
 categoryNewsApi(
   `${base_url}?q=${getLocalSearchTerm() || defaultSearchTerm}&sentiment=${
     getLocalSentiment() || defaultSentiment
