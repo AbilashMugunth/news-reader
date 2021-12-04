@@ -22,12 +22,14 @@
     <title>News Reader</title>
   </head>
   <body>
+    <!-- !*HEADER SECTION ----------------------------->
     <header>
       <p class="title"><span>News</span><span>Reader</span></p>
       <input type="text" id="search-tab" placeholder="search here" />
       <a id="advance-search">Advanced Search</a>
     </header>
 
+    <!-- !*DATE SECTION ----------------------------->
     <input
       type="text"
       class="date-range"
@@ -40,6 +42,7 @@
       <span id="display-end-date">...</span>
     </div>
 
+    <!-- !*MAIN SECTION ----------------------------->
     <main>
       <div class="preview-container"></div>
       <div class="news-content">
@@ -52,33 +55,34 @@
       </div>
     </main>
 
+    <!-- !*MODAL SECTION ----------------------------->
     <div id="modal-background">
       <div id="modal" class="modal">
+        <p class="form-title">Advanced Search</p>
         <form class="form">
-          <label for="category">Select category</label>
-          <input list="categories" id="category" />
-          <datalist id="categories">
+          <label for="category">Select Category</label>
+          <select id="category">
+            <option value=""></option>
             <option value="01000000">Arts and culture</option>
-            <option value="04000000">financial</option>
-            <option value="02000000">crime</option>
-            <option value="13000000">science and tech</option>
-            <option value="15000000">sports</option>
-            <option value="03000000">disaster and accident</option>
-          </datalist>
+            <option value="04000000">Financial</option>
+            <option value="02000000">Crime</option>
+            <option value="13000000">Science and tech</option>
+            <option value="15000000">Sports</option>
+            <option value="03000000">Disaster and accident</option>
+          </select>
 
-          <label for="sentiment">Select sentiment</label>
-          <input list="sentiments" id="sentiment" />
-          <datalist id="sentiments">
-            <option value="Positive">positive</option>
-            <option value="Neutral">neutral</option>
-            <option value="Negative">negative</option>
-          </datalist>
+          <label for="sentiment">Select Sentiment</label>
+          <select id="sentiment">
+            <option value=""></option>
+            <option value="Positive">Positive</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Negative">Negative</option>
+          </select>
 
-          <label for="source">Select source</label>
-          <input list="sources" id="source" />
-
-          <datalist id="sources">
-            <option value="210">indian express</option>
+          <label for="source">Select Source</label>
+          <select id="source">
+            <option value=""></option>
+            <option value="210">Indian express</option>
             <option value="211">India today</option>
             <option value="14">ABC news</option>
             <option value="277">Forbes</option>
@@ -87,13 +91,19 @@
             <option value="136">mashable</option>
             <option value="157">Tech radar</option>
             <option value="178">BBC</option>
-          </datalist>
+          </select>
         </form>
-        <button class="result" type="button">show result</button>
-        <i id="close-btn" class="fas fa-2x fa-times"></i>
+
+        <div class="btn-container">
+          <button type="button" class="result">Show Result</button>
+          <button type="button" class="cancel">Cancel</button>
+        </div>
+
+        <i id="close-btn" class="fas fa-times"></i>
       </div>
     </div>
 
+    <!-- !*SCRIPTS  ----------------------------->
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"

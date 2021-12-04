@@ -57,16 +57,14 @@ main {
   cursor: pointer;
 }
 
+#advance-search:hover {
+  background-color: #185ff8;
+  color: #ffff;
+}
+
 .display-dates {
   margin-left: 1.5rem;
   margin-top: 1rem;
-}
-
-/* ////////////////////////////////////////////////// */
-.preview-container {
-  padding-right: 1rem;
-  border-right: 1px solid #000;
-  margin-left: 2rem;
 }
 
 .date-range {
@@ -77,6 +75,18 @@ main {
   margin-top: 3rem;
   width: 20rem;
   margin-bottom: -3rem;
+}
+
+/* ////////////////////////////////////////////////// */
+
+.preview-container {
+  padding-right: 1rem;
+  border-right: 1px solid #000;
+  margin-left: 2rem;
+}
+
+.each-preview-container.active {
+  background: rgb(202, 191, 191);
 }
 
 .news-box {
@@ -90,9 +100,11 @@ main {
 .publication {
   color: #acabc4;
 }
+
 .main-publication {
   color: #185ff8;
 }
+
 .link {
   text-decoration: none;
   color: #000000;
@@ -128,6 +140,7 @@ main {
   line-height: 1.6;
   margin-bottom: 2rem;
 }
+
 .main-side-heading {
   display: flex;
   justify-content: space-between;
@@ -161,7 +174,7 @@ main {
   transform: translate(-50%, -50%);
   width: 85vw;
   height: 50vh;
-  overflow: scroll;
+  // overflow: scroll;
   padding: 10px 20px;
   border-radius: 5px;
 
@@ -169,6 +182,48 @@ main {
   animation-name: animatemodal;
   animation-duration: 0.4s;
   position: relative;
+}
+
+.form {
+  border-top: 1px solid #acabc4;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+  margin-top: 1rem;
+  // background: red;
+  font-family: "Open Sans", sans-serif;
+}
+
+.form-title {
+  font-size: 1.5rem;
+}
+
+select {
+  border-radius: 2rem;
+  width: 15rem;
+  padding: 0 1rem;
+}
+
+.btn-container {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+
+  .result,
+  .cancel {
+    padding: 0.3rem 1rem;
+    background-color: #185ff8;
+    border: none;
+    border: 1px solid #185ff8;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .result:hover,
+  .cancel:hover {
+    background-color: #fff;
+    color: #185ff8;
+  }
 }
 
 @keyframes animatemodal {
@@ -184,9 +239,10 @@ main {
 
 #close-btn {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 20px;
+  top: 12px;
   color: #000;
+  font-size: 1.5rem;
 }
 
 #close-btn:hover {

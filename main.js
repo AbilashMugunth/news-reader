@@ -61,6 +61,8 @@ function insert(news) {
     const eachPreviewContainer = document.createElement("div");
     eachPreviewContainer.classList.add("each-preview-container");
     eachPreviewContainer.addEventListener("click", () => {
+      console.log(eachPreviewContainer);
+
       mainHeading.innerHTML = `${element.title}`;
       mainPublication.innerHTML = `${element.publication}`;
       mainDate.innerHTML = `${formatDate(slicedDate())}`;
@@ -166,6 +168,11 @@ const localCategory = document.getElementById("category");
 const localSentiment = document.getElementById("sentiment");
 const localSource = document.getElementById("source");
 const result = document.querySelector(".result");
+const cancel = document.querySelector(".cancel");
+
+cancel.addEventListener("click", () => {
+  document.querySelector(".form").reset();
+});
 
 result.addEventListener("click", () => {
   localStorage.setItem("categoryvalue", localCategory.value);
